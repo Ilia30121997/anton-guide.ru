@@ -20,9 +20,12 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { font-family: 'Montserrat', sans-serif; color: var(--text-primary); min-height: 100vh; overflow-x: hidden; background: #1a1a1a; }
-        .background-container { position: absolute; top: 0; left: 0; width: 100%; min-height: 100%; z-index: -1; }
-        .background-image { width: 100%; min-height: 100vh; object-fit: cover; filter: brightness(0.85); }
-        .background-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; background: linear-gradient(to right, rgba(15,25,20,0.85) 0%, rgba(15,25,20,0.15) 20%, rgba(15,25,20,0.15) 80%, rgba(15,25,20,0.85) 100%), linear-gradient(to bottom, rgba(15,25,20,0.5) 0%, rgba(15,25,20,0.1) 30%, rgba(15,25,20,0.1) 70%, rgba(15,25,20,0.6) 100%); }
+        
+        /* ===== ФОНОВОЕ ИЗОБРАЖЕНИЕ ===== */
+        .background-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .background-image { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); }
+        .background-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, rgba(15,25,20,0.95) 0%, rgba(15,25,20,0.3) 15%, rgba(15,25,20,0.3) 85%, rgba(15,25,20,0.95) 100%), linear-gradient(to bottom, rgba(15,25,20,0.7) 0%, rgba(15,25,20,0.2) 30%, rgba(15,25,20,0.2) 70%, rgba(15,25,20,0.8) 100%); }
+        
         .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1.5rem 5%; display: flex; justify-content: space-between; align-items: center; z-index: 100; backdrop-filter: blur(10px); background: rgba(15,25,20,0.4); border-bottom: 1px solid var(--glass-border); }
         .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; letter-spacing: 0.05em; }
         .logo span { color: var(--accent); }
@@ -131,8 +134,12 @@
     </style>
 </head>
 <body>
-    <div class="background-container"><img src="background.jpg" alt="" class="background-image"></div>
-    <div class="background-overlay"></div>
+    <!-- Фон на весь экран -->
+    <div class="background-container">
+        <img src="background.jpg" alt="" class="background-image">
+        <div class="background-overlay"></div>
+    </div>
+
     <nav class="nav">
         <div class="logo">Горы <span>&</span> Душа</div>
         <ul class="nav-links">
@@ -142,6 +149,7 @@
             <li><a href="#contact">Связаться</a></li>
         </ul>
     </nav>
+
     <main class="main-content">
         <section class="hero">
             <div class="hero-content">
@@ -154,6 +162,7 @@
                 </div>
             </div>
         </section>
+
         <section id="about" class="about-section">
             <div class="glass-card">
                 <div class="about-grid">
@@ -171,6 +180,7 @@
                 </div>
             </div>
         </section>
+
         <section id="services" class="services-section">
             <div class="section-header">
                 <p class="section-label">Что я предлагаю</p>
@@ -201,6 +211,7 @@
                 </div>
             </div>
         </section>
+
         <section id="reviews" class="reviews-section">
             <div class="section-header">
                 <p class="section-label">Впечатления от походов</p>
@@ -208,6 +219,7 @@
             </div>
             <div class="reviews-placeholder"><p>Раздел с отзывами <span>скоро появится</span>.<br>Мы собираем впечатления наших участников.</p></div>
         </section>
+
         <section id="contact" class="contact-section">
             <div class="contact-card">
                 <h2 class="contact-title">Хотите заказать звонок?</h2>
@@ -225,13 +237,18 @@
                 </form>
                 <div class="contact-divider"><span>или свяжитесь напрямую</span></div>
                 <div class="contact-buttons">
+                    <!-- ===== TELEGRAM: измени daleko_bezhit_doroga на нужный username ===== -->
                     <a href="https://t.me/daleko_bezhit_doroga" class="contact-btn" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>Telegram</a>
+                    <!-- ===== ТЕЛЕФОН: измени +79001234567 на нужный номер ===== -->
                     <a href="tel:+79001234567" class="contact-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+7 (900) 123-45-67</a>
                 </div>
             </div>
         </section>
     </main>
+
     <footer class="footer"><p>© 2025 Антон Доманин. Все права защищены.</p></footer>
+
+    <!-- Модальное окно: Индивидуальные походы -->
     <div class="modal-overlay" id="modalIndividual" onclick="closeModalOnOverlay(event)">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('individual')"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
@@ -248,6 +265,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Модальное окно: Групповые походы -->
     <div class="modal-overlay" id="modalGroup" onclick="closeModalOnOverlay(event)">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('group')"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
@@ -264,11 +283,13 @@
             </div>
         </div>
     </div>
+
     <script>
         function openModal(type) { document.getElementById(type === 'individual' ? 'modalIndividual' : 'modalGroup').classList.add('active'); document.body.classList.add('modal-open'); }
         function closeModal(type) { document.getElementById(type === 'individual' ? 'modalIndividual' : 'modalGroup').classList.remove('active'); document.body.classList.remove('modal-open'); }
         function closeModalOnOverlay(event) { if (event.target.classList.contains('modal-overlay')) { event.target.classList.remove('active'); document.body.classList.remove('modal-open'); } }
         document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { document.querySelectorAll('.modal-overlay.active').forEach(modal => modal.classList.remove('active')); document.body.classList.remove('modal-open'); } });
+        
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('userName').value;
@@ -277,7 +298,10 @@
             const formStatus = document.getElementById('formStatus');
             let text = `🏔️ Новая заявка с сайта!\n\n👤 Имя: ${name}\n📱 Телефон: ${phone}\n`;
             if (message) text += `💬 Сообщение: ${message}`;
+            
+            /* ===== TELEGRAM ДЛЯ ФОРМЫ: измени daleko_bezhit_doroga на нужный username ===== */
             const telegramUrl = `https://t.me/daleko_bezhit_doroga?text=${encodeURIComponent(text)}`;
+            
             formStatus.className = 'form-status success';
             formStatus.textContent = '✓ Сейчас откроется Telegram для отправки сообщения';
             window.open(telegramUrl, '_blank');
