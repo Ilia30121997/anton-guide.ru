@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Антон Доманин — Горный гид | Походы и треккинг</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: rgba(0, 0, 0, 0.3);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.85);
+            --accent: #7eb8a2;
+            --accent-hover: #9ed4be;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: #1a1a1a;
+        }
+
+        /* Фоновое изображение с размытием по краям */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .background-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6);
+        }
+
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(to right, rgba(15, 25, 20, 0.95) 0%, rgba(15, 25, 20, 0.3) 15%, rgba(15, 25, 20, 0.3) 85%, rgba(15, 25, 20, 0.95) 100%),
+                linear-gradient(to bottom, rgba(15, 25, 20, 0.7) 0%, rgba(15, 25, 20, 0.2) 30%, rgba(15, 25, 20, 0.2) 70%, rgba(15, 25, 20, 0.8) 100%);
+        }
+
+        /* Навигация */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(15, 25, 20, 0.4);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--text-primary);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Основной контент */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* Hero секция */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero-subtitle {
+            font-size: 0.85rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 500;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title span {
+            display: block;
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #0f1914;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(126, 184, 162, 0.3);
+        }
+
+        .btn-glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+        }
+
+        .btn-glass:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Секция об инструкторе */
+        .about-section {
+            padding: 8rem 0;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 0 25px 50px var(--glass-shadow);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-image-container {
+            position: relative;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            filter: brightness(0.95);
+        }
+
+        .about-image-border {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: -15px;
+            bottom: -15px;
+            border: 2px solid var(--accent);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .about-content h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .about-content h2 span {
+            color: var(--accent);
+        }
+
+        .about-subtitle {
+            font-size: 0.9rem;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .about-text {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.7;
+            color: var(--text-primary);
+            padding-left: 1.5rem;
+            border-left: 3px solid var(--accent);
+            margin-top: 2rem;
+        }
+
+        .experience-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(126, 184, 162, 0.15);
+            border: 1px solid var(--accent);
+            padding: 0.75rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-top: 1.5rem;
+        }
+
+        /* Секция услуг */
+        .services-section {
+            padding: 6rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 500;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(126, 184, 162, 0.1) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(126, 184, 162, 0.15);
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .service-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.7rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .service-tag {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Секция отзывов */
+        .reviews-section {
+            padding: 6rem 0;
+        }
+
+        .reviews-placeholder {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 4rem;
+            text-align: center;
+        }
+
+        .reviews-placeholder p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .reviews-placeholder span {
+            color: var(--accent);
+        }
+
+        /* Секция контактов */
+        .contact-section {
+            padding: 6rem 0 8rem;
+        }
+
+        .contact-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 4rem;
+            text-align: center;
+        }
+
+        .contact-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .contact-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-form {
+            max-width: 500px;
+            margin: 0 auto 3rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            color: var(--text-primary);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--accent);
+            border: none;
+            border-radius: 15px;
+            color: #0f1914;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .form-submit:hover {
+            background: var(--accent-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(126, 184, 162, 0.3);
+        }
+
+        .contact-divider {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .contact-divider::before,
+        .contact-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--glass-border);
+        }
+
+        .contact-divider span {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .contact-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Футер */
+        .footer {
+            padding: 2rem 5%;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            background: rgba(15, 25, 20, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 900px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .about-image-container {
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .about-image-border {
+                display: none;
+            }
+
+            .about-quote {
+                border-left: none;
+                padding-left: 0;
+                border-top: 3px solid var(--accent);
+                padding-top: 1.5rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .contact-buttons {
+                flex-direction: column;
+            }
+
+            .contact-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content > * {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .hero-subtitle { animation-delay: 0.1s; }
+        .hero-title { animation-delay: 0.2s; }
+        .hero-description { animation-delay: 0.3s; }
+        .hero-cta { animation-delay: 0.4s; }
+
+        .glass-card, .service-card, .contact-card {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Фон -->
+    <div class="background-container">
+        <img src="images/background.jpg" alt="" class="background-image">
+        <div class="background-overlay"></div>
+    </div>
+
+    <!-- Навигация -->
+    <nav class="nav">
+        <div class="logo">Горы <span>&</span> Душа</div>
+        <ul class="nav-links">
+            <li><a href="#about">Об инструкторе</a></li>
+            <li><a href="#services">Услуги</a></li>
+            <li><a href="#reviews">Отзывы</a></li>
+            <li><a href="#contact">Связаться</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-content">
+                <p class="hero-subtitle">Горный туризм и альпинизм</p>
+                <h1 class="hero-title">
+                    Откройте для себя
+                    <span>мир гор</span>
+                </h1>
+                <p class="hero-description">
+                    Индивидуальные и групповые походы с профессиональным инструктором. 
+                    Безопасность, незабываемые виды и путь к себе.
+                </p>
+                <div class="hero-cta">
+                    <a href="#contact" class="btn btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        Заказать звонок
+                    </a>
+                    <a href="#services" class="btn btn-glass">Узнать больше</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Об инструкторе -->
+        <section id="about" class="about-section">
+            <div class="glass-card">
+                <div class="about-grid">
+                    <div class="about-image-container">
+                        <img src="images/anton.jpg" alt="Антон Доманин" class="about-image">
+                        <div class="about-image-border"></div>
+                    </div>
+                    <div class="about-content">
+                        <h2>Доманин <span>Антон</span></h2>
+                        <p class="about-subtitle">Инструктор-проводник по горному туризму и альпинизму</p>
+                        <p class="about-text">
+                            Профессиональный горный гид с многолетним опытом организации походов 
+                            различной сложности. Моя цель — не просто провести вас по маршруту, 
+                            а открыть особый мир, где каждый шаг приближает к настоящему себе.
+                        </p>
+                        <blockquote class="about-quote">
+                            «Я хочу объединить увлечение горным треккингом и человека рядом со мной. 
+                            Для меня важно показать туристам, что горы — это особый мир, где нет места 
+                            лжи и суете, где нужно с открытым сердцем двигаться к своим целям.»
+                        </blockquote>
+                        <div class="experience-badge">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                            </svg>
+                            Опыт в туризме более 9 лет
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Услуги -->
+        <section id="services" class="services-section">
+            <div class="section-header">
+                <p class="section-label">Что я предлагаю</p>
+                <h2 class="section-title">Наши услуги</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🏔️</div>
+                    <h3>Индивидуальные походы</h3>
+                    <p>
+                        Персональный маршрут, полное внимание инструктора и гибкий график. 
+                        Идеально для тех, кто хочет максимально погрузиться в опыт горного треккинга.
+                    </p>
+                    <div class="service-details">
+                        <span class="service-tag">1-2 человека</span>
+                        <span class="service-tag">Любой уровень</span>
+                        <span class="service-tag">Гибкие даты</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">👥</div>
+                    <h3>Групповые походы</h3>
+                    <p>
+                        Приключение в кругу единомышленников. Новые знакомства, командный дух 
+                        и незабываемые моменты, которые объединяют на всю жизнь.
+                    </p>
+                    <div class="service-details">
+                        <span class="service-tag">3-12 человек</span>
+                        <span class="service-tag">Расписание туров</span>
+                        <span class="service-tag">Новые друзья</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Отзывы -->
+        <section id="reviews" class="reviews-section">
+            <div class="section-header">
+                <p class="section-label">Впечатления от походов</p>
+                <h2 class="section-title">Отзывы участников</h2>
+            </div>
+            <div class="reviews-placeholder">
+                <p>Раздел с отзывами <span>скоро появится</span>.<br>Мы собираем впечатления наших участников.</p>
+            </div>
+        </section>
+
+        <!-- Контакты -->
+        <section id="contact" class="contact-section">
+            <div class="contact-card">
+                <h2 class="contact-title">Хотите заказать звонок?</h2>
+                <p class="contact-subtitle">Оставьте заявку, и я свяжусь с вами для обсуждения деталей</p>
+                
+                <form class="contact-form" action="#" method="POST">
+                    <div class="form-row">
+                        <input type="text" class="form-input" placeholder="Ваше имя" required>
+                        <input type="tel" class="form-input" placeholder="+7 (___) ___-__-__" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-input" placeholder="Расскажите о ваших пожеланиях (необязательно)"></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Отправить заявку</button>
+                </form>
+
+                <div class="contact-divider">
+                    <span>или свяжитесь напрямую</span>
+                </div>
+
+                <div class="contact-buttons">
+                    <a href="https://t.me/username" class="contact-btn" target="_blank">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                        </svg>
+                        Telegram
+                    </a>
+                    <a href="tel:+79001234567" class="contact-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        +7 (900) 123-45-67
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <p>© 2025 Антон Доманин. Все права защищены.</p>
+    </footer>
+</body>
+</html>
